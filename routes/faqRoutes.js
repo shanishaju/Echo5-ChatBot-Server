@@ -8,7 +8,7 @@ const FAQ = require("../models/FAQ");
 // Set up multer for file uploads
 const upload = multer({ dest: "uploads/" });
 
-// Upload FAQ file
+// Upload FAQ files
 router.post("/upload", upload.single("file"), async (req, res) => {
   const siteID = req.siteID;
   const file = req.file;
