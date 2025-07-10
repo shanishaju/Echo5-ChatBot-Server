@@ -13,8 +13,7 @@ const upload = multer({ dest: "uploads/" });
 
 // POST /api/chat (main chat endpoint)
 router.post("/", async (req, res) => {
-  const { message } = req.body;
-  const siteID = req.siteID;
+  const { message, siteID } = req.body;
   try {
     const chatCompletion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
@@ -30,7 +29,7 @@ router.post("/", async (req, res) => {
 
 // Upload FAQ files
 router.post("/upload", upload.single("file"), async (req, res) => {
-  const siteID = req.siteID;
+  const siteID = req.body.siteID;
   const file = req.file;
   if (!file || ![".pdf", ".docx", ".txt"].includes(path.extname(file.originalname))) {
     if (file && fs.existsSync(file.path)) fs.unlinkSync(file.path);
@@ -48,8 +47,7 @@ router.post("/upload", upload.single("file"), async (req, res) => {
 
 // Handle chat message
 router.post("/message", async (req, res) => {
-  const { message } = req.body;
-  const siteID = req.siteID;
+  const { message, siteID } = req.body;
   try {
     const chatCompletion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
@@ -65,7 +63,7 @@ router.post("/message", async (req, res) => {
 
 // Get chat logs
 router.get("/logs", async (req, res) => {
-  const siteID = req.siteID;
+  const siteID = req.query.siteID;
   const logs = await ChatLog.find({ siteID });
   res.json(logs);
 });
