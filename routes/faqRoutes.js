@@ -1,8 +1,11 @@
+const express = require("express");
+const router = express.Router();
 const fs = require("fs");
 const path = require("path");
 const FAQ = require("../models/FAQ");
 
-exports.uploadFAQ = async (req, res) => {
+// Upload FAQ file
+router.post("/upload", async (req, res) => {
   const siteID = req.siteID;
   const file = req.file;
 
@@ -21,4 +24,6 @@ exports.uploadFAQ = async (req, res) => {
   });
 
   res.json({ message: "File uploaded" });
-};
+});
+
+module.exports = router;
