@@ -2,10 +2,14 @@ const express = require("express");
 const router = express.Router();
 const fs = require("fs");
 const path = require("path");
+const multer = require("multer");
 const FAQ = require("../models/FAQ");
 
+// Set up multer for file uploads
+const upload = multer({ dest: "uploads/" });
+
 // Upload FAQ file
-router.post("/upload", async (req, res) => {
+router.post("/upload", upload.single("file"), async (req, res) => {
   const siteID = req.siteID;
   const file = req.file;
 
